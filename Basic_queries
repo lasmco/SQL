@@ -1,15 +1,7 @@
--- Selecting distinct sellers, amount from the sales table aliased as Sales
-SELECT DISTINCT sellers, avg(amount) as Sales
-FROM sales;
-
---Code to create a view for the above without ordering
-CREATE VIEW sellers_view AS
-SELECT DISTINCT sellers, avg(amount) as Sales
-FROM sales;
-
---Code to use view
-SELECT *
-FROM sellers_view;
+-- Selecting total amount since year 2000 and above from the sales table aliased
+SELECT sum(gross) as total_gross
+FROM sales
+WHERE year >=2000;
 
 --Select count of products sold in 2021 in Texas
 SELECT COUNT(PRODUCT) as count_texas_2020
@@ -17,3 +9,28 @@ FROM sales
 WHERE STATE = 'Texas'
 AND YEAR = 2020;
 
+--Select names of people whose names start with A
+SELECT name
+FROM people
+WHERE name LIKE 'A%'
+
+--Find the titles and release year for films over two hours in length released in 1990 and 2000
+SELECT title, release_year
+FROM films
+WHERE duration > 120
+AND release_year IN (1990, 2000)
+
+/*The  following counts the unique tiltes from films, 
+filters movies from 1990 to 1999,
+adds filter for English movies,
+and adds final filter for 'G', 'PG', 'PG-13' certifications */
+
+SELECT COUNT(DISTINCT title) AS nineties_english_films_for_teens
+FROM films
+WHERE release_year BETWEEN 1990 AND 1999
+AND language LIKE 'English'
+AND certification IN ('G', 'PG', 'PG-13');
+
+--Rounding the average facebook likes to one decimal place and assigning alias
+SELECT ROUND(AVG(facebook_likes),1) AS avg_facebook_likes
+FROM reviews;
