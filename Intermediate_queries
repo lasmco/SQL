@@ -3,4 +3,34 @@ SELECT seller, invoice, gross
 FROM sales
 WHERE year = 2021
 AND month = 'February'
-ORDER BY gross DESC, invoice
+ORDER BY gross DESC, invoice;
+
+--select the sales year and count of sales in each year aliased as total_sales
+SELECT year, count(*) AS total_sales
+FROM sales
+GROUP BY year;
+
+--select the sales year and the average sales value of invoices, grouped by year
+SELECT year, round(avg(gross),2) AS avg_gross
+FROM sales
+GROUP BY year;
+
+--Select country and average budget for a project
+SELECT country, ROUND(avg(budget),2) AS average_budget
+FROM projects
+--Group by country
+GROUP BY country
+-- Filter to countries with an average budget of more than one million
+HAVING avg(budget) > 1000000
+--Order by descending of the aggregated budget
+ORDER BY SUM(budget) DESC;
+
+Select the year that meets the criteria of having an average top budget exceeding $6 million, after 1990
+SELECT year, round(AVG(budget),1) AS avg_budget, round(AVG(gross),1) AS avg_gross
+FROM projects
+WHERE year > 1990
+GROUP BY year
+HAVING AVG(budget) > 6000000
+ORDER BY avg_gross DESC
+LIMIT 1;
+
