@@ -1,0 +1,6 @@
+--Select sales (invoice) made by seller in the month of February 2021 in descening order by gross amount then invoice
+SELECT seller, invoice, gross
+FROM sales
+WHERE year = 2021
+AND month = 'February'
+ORDER BY gross DESC, invoice
