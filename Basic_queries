@@ -1,0 +1,19 @@
+-- Selecting distinct sellers, amount from the sales table aliased as Sales
+SELECT DISTINCT sellers, avg(amount) as Sales
+FROM sales;
+
+--Code to create a view for the above without ordering
+CREATE VIEW sellers_view AS
+SELECT DISTINCT sellers, avg(amount) as Sales
+FROM sales;
+
+--Code to use view
+SELECT *
+FROM sellers_view;
+
+--Select count of products sold in 2021 in Texas
+SELECT COUNT(PRODUCT) as count_texas_2020
+FROM sales
+WHERE STATE = 'Texas'
+AND YEAR = 2020;
+
