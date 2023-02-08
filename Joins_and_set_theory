@@ -1,0 +1,78 @@
+--(INNER JOIN) Select name fields with alias and region
+SELECT cities.name AS city, 
+  countries.name AS country, 
+  countries.region
+FROM cities
+INNER JOIN countries
+ON cities.country_code = countries.code;
+
+--INNER JOIN with joining field utilizing the USING keyword
+SELECT c.name AS country,
+  l.name AS language
+FROM countries AS C
+INNER JOIN languages AS l
+USING(code);
+
+--Multiple table join
+SELECT name, e.year, 
+  e.unemployment_rate, 
+  fertirlity_rate
+FROM countries AS c
+INNER JOIN populations AS p
+ON c.code = p.country_code
+INNER JOIN economies AS e
+ON p.country_code = e.code;
+
+--LEFT JOIN provides regions with average 2010 GDP per capita from highest to lowest, top 10 records
+SELECT region, 
+  AVG(gdp_percapita) AS avg_gdp
+FROM countries AS c
+LEFT JOIN economies AS e
+USING(code)
+WHERE year = 2010
+GROUP BY region
+ORDER BY avg_gdp DESC
+LIMIT 10;
+
+--Selecting all cities with the same name as a country
+SELECT name
+FROM cities
+INTERSECT
+SELECT name
+FROM countries
+
+--Creating a query that combines two queries for all fields from tables sales2020 and sales2021 and orders by gross descending and invoice
+SELECT *
+FROM sales2020
+UNION ALL
+SELECT *
+FROM sales2021
+ORDER BY gross DESC, invoice;
+
+--SEMI-JOIN in a WHERE clause
+SELECT DISTINCT name
+FROM languages
+WHERE code IN
+    (SELECT code
+    FROM countries
+    WHERE region = 'Europe')
+ORDER BY name;
+
+--Subquery inside WHERE clause, filter populations for all records where life expectancy is 1.15 higher than average.
+SELECT *
+FROM populations
+WHERE life_expectancy >
+    (SELECT AVG(life_expectancy * 1.15)
+    FROM populations
+    WHERE year = 2015)
+    AND year = 2015;
+    
+--LEFT JOIN, GROUP BY, COUNT of top 10 countries with most cities
+SELECT countries.name AS country,
+  COUNT(*) AS cities_num
+FROM countries
+LEFT JOIN cities
+ON countries.code = cities.country_code
+GROUP BY country
+ORDER BY cities_num DESC, country
+LIMIT 10;
