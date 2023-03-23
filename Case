@@ -1,0 +1,11 @@
+/* Creating a case statement identifying whethter an event in the US included Chicago or Dallas or neither as location
+and group them by location */
+SELECT
+  CASE WHEN location_id = 10189 THEN 'Chicago'
+       WHEN location_id = 9823 THEN 'Dallas'
+       ELSE 'Other' END AS location,
+  COUNT(id) AS total_events
+FROM events_usa
+GROUP BY location;
+
+
